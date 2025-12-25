@@ -132,17 +132,17 @@ export async function getCurrentUser() {
 export async function getAdminPosts(current = 1, size = 10, status?: number) {
   const params = new URLSearchParams({ current: String(current), size: String(size) })
   if (status !== undefined && status !== -1) params.append("status", String(status))
-  return request<PageResult<PostDO>>(`/api/admin/posts?${params}`)
+  return request<PageResult<PostDO>>(`/api/core/admin/posts?${params}`)
 }
 
 export async function auditPost(id: number, pass: boolean) {
-  return request<string>(`/api/admin/posts/${id}/audit?pass=${pass}`, {
+  return request<string>(`/api/core/admin/posts/${id}/audit?pass=${pass}`, {
     method: "POST",
   })
 }
 
 export async function deletePost(id: number) {
-  return request<string>(`/api/admin/posts/${id}`, {
+  return request<string>(`/api/core/admin/posts/${id}`, {
     method: "DELETE",
   })
 }
