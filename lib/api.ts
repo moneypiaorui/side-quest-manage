@@ -75,12 +75,15 @@ export interface PostDoc {
 }
 
 export interface DashboardStats {
-  totalUsers?: number
-  totalPosts?: number
+  totalUsers: number
+  activeUsers: number
+  bannedUsers: number
+  totalPosts: number
+  pendingPosts: number
+  approvedPosts: number
+  rejectedPosts: number
   totalComments?: number
   totalLikes?: number
-  pendingPosts?: number
-  activeUsers?: number
   [key: string]: unknown
 }
 
