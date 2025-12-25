@@ -135,6 +135,10 @@ export async function getAdminPosts(current = 1, size = 10, status?: number) {
   return request<PageResult<PostDO>>(`/api/core/admin/posts?${params}`)
 }
 
+export async function getPostDetail(id: number) {
+  return request<PostDO>(`/api/core/posts/${id}`)
+}
+
 export async function auditPost(id: number, pass: boolean) {
   return request<string>(`/api/core/admin/posts/${id}/audit?pass=${pass}`, {
     method: "POST",
