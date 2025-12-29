@@ -182,6 +182,28 @@ export default function PostsPage() {
                               </Button>
                             </>
                           )}
+                          {post.status === 1 && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleAudit(post.id, false)}
+                              className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                              title="撤销通过"
+                            >
+                              <XCircle className="h-4 w-4" />
+                            </Button>
+                          )}
+                          {post.status === 2 && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleAudit(post.id, true)}
+                              className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                              title="重新通过"
+                            >
+                              <CheckCircle className="h-4 w-4" />
+                            </Button>
+                          )}
                           <Button
                             variant="ghost"
                             size="icon"
