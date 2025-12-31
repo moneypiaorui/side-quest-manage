@@ -98,7 +98,7 @@ export default function PostsPage() {
                 <FileText className="h-5 w-5" />
                 帖子列表
               </CardTitle>
-              <CardDescription>共 {data?.total || 0} 条记录</CardDescription>
+              <CardDescription>共{data?.total || 0} 条记录</CardDescription>
             </div>
             <Select
               value={statusFilter}
@@ -223,7 +223,7 @@ export default function PostsPage() {
               {/* Pagination */}
               <div className="flex items-center justify-between mt-4">
                 <p className="text-sm text-muted-foreground">
-                  第 {page} 页，共 {data.pages} 页
+                  第{page}页，共{data.pages}页
                 </p>
                 <div className="flex items-center gap-2">
                   <Button

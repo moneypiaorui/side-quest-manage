@@ -75,13 +75,15 @@ export interface PostDoc {
 }
 
 export interface DashboardStats {
-  totalUsers: number
-  activeUsers: number
-  bannedUsers: number
-  totalPosts: number
-  pendingPosts: number
-  approvedPosts: number
-  rejectedPosts: number
+  totalUsers?: number
+  activeUsers?: number
+  activeUsers24h?: number
+  bannedUsers?: number
+  totalPosts?: number
+  pendingPosts?: number
+  approvedPosts?: number
+  rejectedPosts?: number
+  totalEvents?: number
   totalComments?: number
   totalLikes?: number
   [key: string]: unknown
@@ -89,6 +91,7 @@ export interface DashboardStats {
 
 export interface TopPost {
   id?: number
+  postId?: string | number
   title?: string
   viewCount?: number
   likeCount?: number
@@ -180,11 +183,61 @@ export async function searchUserPosts(userId: number, page = 0, size = 10) {
 
 // Analytics APIs
 export async function getDashboardStats() {
-  return request<DashboardStats>("/api/analytics/dashboard/stats")
+  const result = await request<Record<string, unknown>>("/api/analytics/dashboard/stats")
+  if (result.code !== 200 || !result.data) {
+    return result as ApiResult<DashboardStats>
+  }
+
+  const raw = result.data as Record<string, unknown>
+  const toNumber = (value: unknown) => {
+    if (typeof value === "number") return value
+    if (typeof value === "string" && value.trim() !== "") return Number(value)
+    return undefined
+  }
+
+  const normalized: DashboardStats = {
+    ...raw,
+    totalUsers: toNumber(raw.totalUsers ?? raw.total_users),
+    activeUsers: toNumber(raw.activeUsers ?? raw.active_users),
+    activeUsers24h: toNumber(raw.activeUsers24h ?? raw.active_users_24h),
+    bannedUsers: toNumber(raw.bannedUsers ?? raw.banned_users),
+    totalPosts: toNumber(raw.totalPosts ?? raw.total_posts),
+    pendingPosts: toNumber(raw.pendingPosts ?? raw.pending_posts),
+    approvedPosts: toNumber(raw.approvedPosts ?? raw.approved_posts),
+    rejectedPosts: toNumber(raw.rejectedPosts ?? raw.rejected_posts),
+    totalEvents: toNumber(raw.totalEvents ?? raw.total_events),
+    totalComments: toNumber(raw.totalComments ?? raw.total_comments),
+    totalLikes: toNumber(raw.totalLikes ?? raw.total_likes),
+  }
+
+  return { ...result, data: normalized }
 }
 
 export async function getTopPosts() {
-  return request<TopPost[]>("/api/analytics/dashboard/top-posts")
+  const result = await request<Record<string, unknown>[]>("/api/analytics/dashboard/top-posts")
+  if (result.code !== 200 || !result.data) {
+    return result as ApiResult<TopPost[]>
+  }
+
+  const toNumber = (value: unknown) => {
+    if (typeof value === "number") return value
+    if (typeof value === "string" && value.trim() !== "") return Number(value)
+    return undefined
+  }
+
+  const mapped = result.data.map((item) => {
+    const record = item as Record<string, unknown>
+    const postId = record.postId ?? record.post_id ?? record.id
+    return {
+      ...record,
+      id: typeof postId === "number" ? postId : toNumber(postId),
+      postId,
+      viewCount: toNumber(record.viewCount ?? record.view_count),
+      likeCount: toNumber(record.likeCount ?? record.like_count),
+    } as TopPost
+  })
+
+  return { ...result, data: mapped }
 }
 
 export async function getUserStats(userId: number) {

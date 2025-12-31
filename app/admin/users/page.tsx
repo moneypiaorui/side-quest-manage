@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import useSWR from "swr"
-import { getAdminUsers, type UserVO } from "@/lib/api"
+import { getAdminUsers, banUser, type UserVO } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -33,7 +33,7 @@ export default function UsersPage() {
   const [pageSize] = useState(10)
   const [statusFilter, setStatusFilter] = useState<string>("-1")
   const [banId, setBanId] = useState<number | null>(null)
-  const [banUser, setBanUserInfo] = useState<UserVO | null>(null)
+  const [banUserInfo, setBanUserInfo] = useState<UserVO | null>(null)
 
   const { data, isLoading, mutate } = useSWR(["admin-users", page, pageSize, statusFilter], async () => {
     const result = await getAdminUsers(page, pageSize, Number.parseInt(statusFilter))
@@ -84,7 +84,7 @@ export default function UsersPage() {
                 <Users className="h-5 w-5" />
                 用户列表
               </CardTitle>
-              <CardDescription>共 {data?.total || 0} 条记录</CardDescription>
+              <CardDescription>共{data?.total || 0} 条记录</CardDescription>
             </div>
             <Select
               value={statusFilter}
@@ -187,7 +187,7 @@ export default function UsersPage() {
               {/* Pagination */}
               <div className="flex items-center justify-between mt-4">
                 <p className="text-sm text-muted-foreground">
-                  第 {page} 页，共 {data.pages} 页
+                  第{page}页，共{data.pages}页
                 </p>
                 <div className="flex items-center gap-2">
                   <Button
@@ -229,8 +229,7 @@ export default function UsersPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>确认封禁</AlertDialogTitle>
             <AlertDialogDescription>
-              确定要封禁用户 <strong>{banUser?.nickname}</strong> (@{banUser?.username}) 吗？
-              封禁后该用户将无法登录和使用系统功能。
+              确定要封禁用户 <strong>{banUserInfo?.nickname}</strong> (@{banUserInfo?.username}) 吗？封禁后该用户将无法登录和使用系统功能。
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
