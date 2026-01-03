@@ -1,5 +1,7 @@
 FROM node:20-alpine AS build
 WORKDIR /app
+ARG BASE_PATH
+ENV BASE_PATH=$BASE_PATH
 COPY package.json pnpm-lock.yaml ./
 RUN corepack enable && corepack prepare pnpm@9.1.2 --activate
 RUN pnpm install --frozen-lockfile
