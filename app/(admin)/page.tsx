@@ -68,7 +68,7 @@ export default function DashboardPage() {
       case 0:
         return (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-            待审核
+            待审�?
           </Badge>
         )
       case 1:
@@ -80,7 +80,7 @@ export default function DashboardPage() {
       case 2:
         return (
           <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-            已拒绝
+            已拒�?
           </Badge>
         )
       default:
@@ -139,7 +139,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* 待审核帖子 */}
+        {/* 待审核帖�?*/}
         <Card className="border-yellow-200 bg-yellow-50/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-yellow-700">待审核帖子</CardTitle>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
             ) : (
               <>
                 <div className="text-2xl font-bold text-yellow-700">{stats?.pendingPosts?.toLocaleString() || 0}</div>
-                <Link href="/admin/posts?status=0">
+                <Link href="/posts?status=0">
                   <Button variant="link" className="p-0 h-auto text-xs text-yellow-600 hover:text-yellow-800">
                     立即审核 <ArrowRight className="h-3 w-3 ml-1" />
                   </Button>
@@ -161,7 +161,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* 已拒绝帖子 */}
+        {/* 已拒绝帖�?*/}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">已拒绝帖子</CardTitle>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
             ) : (
               <>
                 <div className="text-2xl font-bold">{stats?.rejectedPosts?.toLocaleString() || 0}</div>
-                <Link href="/admin/posts?status=2">
+                <Link href="/posts?status=2">
                   <Button variant="link" className="p-0 h-auto text-xs text-muted-foreground hover:text-foreground">
                     查看详情 <ArrowRight className="h-3 w-3 ml-1" />
                   </Button>
@@ -220,12 +220,12 @@ export default function DashboardPage() {
 
       {/* 帖子状态概览 & 最近待审核 */}
       <div className="grid gap-4 lg:grid-cols-2">
-        {/* 帖子状态分布 */}
+        {/* 帖子状态分析 */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5" />
-              帖子状态分布
+              帖子状态分析
             </CardTitle>
             <CardDescription>各状态帖子数量统计</CardDescription>
           </CardHeader>
@@ -238,11 +238,11 @@ export default function DashboardPage() {
               </div>
             ) : (
               <div className="space-y-4">
-                {/* 待审核 */}
+                {/* 待审�?*/}
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 w-24">
                     <Clock className="h-4 w-4 text-yellow-600" />
-                    <span className="text-sm">待审核</span>
+                    <span className="text-sm">待审核帖子</span>
                   </div>
                   <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
                     <div
@@ -270,11 +270,11 @@ export default function DashboardPage() {
                   </div>
                   <span className="text-sm font-medium w-12 text-right">{stats?.approvedPosts || 0}</span>
                 </div>
-                {/* 已拒绝 */}
+                {/* 已拒�?*/}
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 w-24">
                     <XCircle className="h-4 w-4 text-red-600" />
-                    <span className="text-sm">已拒绝</span>
+                    <span className="text-sm">已拒绝帖子</span>
                   </div>
                   <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden">
                     <div
@@ -302,7 +302,7 @@ export default function DashboardPage() {
                 </CardTitle>
                 <CardDescription>需要处理的最新帖子</CardDescription>
               </div>
-              <Link href="/admin/posts?status=0">
+              <Link href="/posts?status=0">
                 <Button variant="outline" size="sm">
                   查看全部
                 </Button>
@@ -362,7 +362,7 @@ export default function DashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
-            <Link href="/admin/posts">
+            <Link href="/posts">
               <div className="flex items-center gap-4 p-4 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
                   <FileText className="h-6 w-6 text-green-600" />
@@ -373,7 +373,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </Link>
-            <Link href="/admin/users">
+            <Link href="/users">
               <div className="flex items-center gap-4 p-4 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
                   <Users className="h-6 w-6 text-blue-600" />
@@ -384,7 +384,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </Link>
-            <Link href="/admin/search">
+            <Link href="/search">
               <div className="flex items-center gap-4 p-4 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
                   <TrendingUp className="h-6 w-6 text-purple-600" />
@@ -401,3 +401,4 @@ export default function DashboardPage() {
     </div>
   )
 }
+

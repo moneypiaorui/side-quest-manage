@@ -21,10 +21,10 @@ import { LayoutDashboard, FileText, Users, Search, LogOut, ChevronRight } from "
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { href: "/admin", label: "仪表盘", icon: LayoutDashboard },
-  { href: "/admin/posts", label: "内容管理", icon: FileText },
-  { href: "/admin/users", label: "用户管理", icon: Users },
-  { href: "/admin/search", label: "搜索查询", icon: Search },
+  { href: "/", label: "仪表盘", icon: LayoutDashboard },
+  { href: "/posts", label: "内容管理", icon: FileText },
+  { href: "/users", label: "用户管理", icon: Users },
+  { href: "/search", label: "搜索查询", icon: Search },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -93,7 +93,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive">
                 <LogOut className="mr-2 h-4 w-4" />
-                退出登录
+                退出登录?
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -105,7 +105,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <aside className="sticky top-16 h-[calc(100vh-4rem)] w-64 border-r bg-background p-4">
           <nav className="space-y-1">
             {navItems.map((item) => {
-              const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href))
+              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
               return (
                 <Link key={item.href} href={item.href}>
                   <div
@@ -132,3 +132,4 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   )
 }
+
