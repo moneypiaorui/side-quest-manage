@@ -115,7 +115,7 @@ function SearchPageContent() {
         {data && (
           <div className="flex items-center justify-between mt-4">
             <p className="text-sm text-muted-foreground">
-              第{(data.number || 0) + 1}页，共{data.totalPages}页（{data.totalElements}条结果）
+              第 {(data.number || 0) + 1} 页，共 {data.totalPages} 页（{data.totalElements} 条结果）
             </p>
             <div className="flex items-center gap-2">
               <Button
