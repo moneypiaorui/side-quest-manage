@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import type React from "react"
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!username || !password) {
-      toast.error("请输入用户名和密�?)
+      toast.error("请输入用户名和密码")
       return
     }
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
         toast.error(result.message || "登录失败")
       }
     } catch {
-      toast.error("登录失败，请检查网络连�?)
+      toast.error("登录失败，请检查网络连接")
     } finally {
       setIsSubmitting(false)
     }
@@ -52,12 +52,12 @@ export default function LoginPage() {
             <Shield className="h-7 w-7 text-primary" />
           </div>
           <CardTitle className="text-2xl">SideQuest 管理后台</CardTitle>
-          <CardDescription>请登录管理员账户</CardDescription>
+          <CardDescription>请登录管理员账号</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">用户�?/Label>
+              <Label htmlFor="username">用户名</Label>
               <Input
                 id="username"
                 type="text"
@@ -74,7 +74,7 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="请输入密�?
+                placeholder="请输入密码"
                 disabled={isSubmitting}
               />
             </div>
@@ -82,7 +82,7 @@ export default function LoginPage() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  登录�?..
+                  登录中...
                 </>
               ) : (
                 "登录"
@@ -94,4 +94,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
