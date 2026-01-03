@@ -17,12 +17,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Spinner } from "@/components/ui/spinner"
-import { LayoutDashboard, FileText, Users, Search, LogOut, ChevronRight, BarChart3 } from "lucide-react"
+import { LayoutDashboard, FileText, Users, Search, LogOut, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
   { href: "/admin", label: "仪表盘", icon: LayoutDashboard },
-  { href: "/admin/analytics", label: "数据分析", icon: BarChart3 },
   { href: "/admin/posts", label: "内容管理", icon: FileText },
   { href: "/admin/users", label: "用户管理", icon: Users },
   { href: "/admin/search", label: "搜索查询", icon: Search },

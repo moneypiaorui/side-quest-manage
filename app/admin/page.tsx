@@ -1,6 +1,6 @@
-﻿"use client"
+"use client"
 import useSWR from "swr"
-import { getAdminPosts, getDashboardStats, getTopPosts, type PostDO, type DashboardStats, type TopPost } from "@/lib/api"
+import { getAdminPosts, getDashboardStats, type PostDO, type DashboardStats } from "@/lib/api"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
@@ -59,21 +59,9 @@ const recentPostsFetcher = async () => {
   return []
 }
 
-const topPostsFetcher = async (): Promise<TopPost[]> => {
-  const result = await getTopPosts()
-  if (result.code === 200) return result.data || []
-  return []
-}
-
 export default function DashboardPage() {
   const { data: stats, isLoading: statsLoading } = useSWR("dashboard-stats", statsFetcher)
   const { data: recentPosts, isLoading: recentLoading } = useSWR<PostDO[]>("recent-posts", recentPostsFetcher)
-  const { data: topPosts, isLoading: topPostsLoading } = useSWR<TopPost[]>("dashboard-top-posts", topPostsFetcher)
-
-  const totalUsers = stats?.totalUsers ?? 0
-  const activeUsers = stats?.activeUsers24h ?? stats?.activeUsers ?? 0
-  const totalEvents = stats?.totalEvents ?? 0
-  const activeRate = totalUsers > 0 ? Math.round((activeUsers / totalUsers) * 100) : 0
 
   const getStatusBadge = (status: number) => {
     switch (status) {
@@ -225,86 +213,6 @@ export default function DashboardPage() {
               <div className="text-2xl font-bold">
                 {(stats as Record<string, unknown>)?.totalViews?.toLocaleString?.() || 0}
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {(stats?.totalEvents !== undefined || stats?.activeUsers24h !== undefined) && (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Activity className="h-5 w-5" />
-                数据概览
-              </CardTitle>
-              <CardDescription>行为事件与活跃用户统计</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {statsLoading ? (
-                <div className="space-y-3">
-                  <Skeleton className="h-8 w-32" />
-                  <Skeleton className="h-3 w-full" />
-                  <Skeleton className="h-3 w-4/5" />
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-muted-foreground">事件总量</div>
-                    <div className="text-2xl font-bold">{totalEvents.toLocaleString()}</div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span>活跃用户（24h）</span>
-                      <span className="font-medium">
-                        {activeUsers.toLocaleString()} / {totalUsers.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="h-3 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-blue-500 transition-all duration-500"
-                        style={{ width: `${activeRate}%` }}
-                      />
-                    </div>
-                    <div className="text-xs text-muted-foreground">活跃率 {activeRate}%</div>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Eye className="h-5 w-5" />
-                热门帖子
-              </CardTitle>
-              <CardDescription>按浏览事件统计的最热内容</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {topPostsLoading ? (
-                <div className="space-y-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Skeleton key={i} className="h-6 w-full" />
-                  ))}
-                </div>
-              ) : topPosts && topPosts.length > 0 ? (
-                <div className="space-y-3">
-                  {topPosts.slice(0, 5).map((post, index) => (
-                    <div key={post.postId ?? post.id ?? index} className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-sm font-semibold">
-                          {index + 1}
-                        </div>
-                        <div className="text-sm font-medium">#{post.postId ?? post.id}</div>
-                      </div>
-                      <div className="text-sm text-muted-foreground">{(post.viewCount || 0).toLocaleString()} 次浏览</div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="py-8 text-center text-muted-foreground">暂无热门数据</div>
-              )}
             </CardContent>
           </Card>
         </div>
